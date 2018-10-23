@@ -2,23 +2,23 @@ $(document).ready(function () {
 
     // trivia bank and answer key
     var triviaKey = [{
-            question: "question 0",
-            options: ["a. hi", "b. no", "c. what", "d. dude"],
+            question: "What animal goes moo?",
+            options: ["a. cow", "b. dog", "c. cat", "d. sheep"],
             answer: 0
         },
         {
-            question: "question 1",
-            options: ["a. all", "b. five", "c. two", "d. one"],
+            question: "Which of the following is a prime number?",
+            options: ["a. one", "b. two", "c. four", "d. nine"],
             answer: 1
         },
         {
-            question: "question 2",
-            options: ["a. red", "b. blue", "c. green", "d. yellow"],
+            question: "Which color is not in the rainbow?",
+            options: ["a. red", "b. blue", "c. brown", "d. yellow"],
             answer: 2
         },
         {
-            question: "question 3",
-            options: ["a. yes", "b. no", "c. maybe", "d. I don't know"],
+            question: "How many tentacles does a octopus have?",
+            options: ["a. five", "b. six", "c. ten", "d. eight"],
             answer: 3
         }
     ];
@@ -41,7 +41,7 @@ $(document).ready(function () {
     var numTimedOut = 0;
     var questionCount = 0;
     var secsLeft = 10;
-    var timer;
+    var timerOn;
     var selected;
     var activeQ;
     var targetAnswer;
@@ -69,7 +69,7 @@ $(document).ready(function () {
         secsLeft--;
 
         if (secsLeft === 0) {
-            clearInterval(timer);
+            clearInterval(timerOn);
             results();
         }
     }
@@ -79,34 +79,31 @@ $(document).ready(function () {
     function startTimer() {
         console.log("timer started");
         $("#timer").html(secsLeft + "s");
-        timer = setInterval(timeOut, 1000);
+        timerOn = setInterval(timeOut, 1000);
     }
 
 
     // function to spawn next question
     function nextQuestion() {
-        activeQ = triviaKey[questionCount];
         console.log("question" + questionCount + "loaded");
         startTimer();
 
         $("#result").empty();
-        $("#question").html(activeQ.question);
+        $("#question").html(triviaKey[questionCount].question);
 
         // spawn options for active question
-        for (var i = 0; i < activeQ.options.length; i++) {
+        for (var i = 0; i < triviaKey[questionCount].options.length; i++) {
             var eachOption = $("<div>");
-            eachOption.text(activeQ.options[i]);
-            eachOption.attr({
-                "data-index": i
-            });
+            eachOption.text(triviaKey[questionCount].options[i]);
+            eachOption.val(i);
             eachOption.addClass("selection");
             $("#options").append(eachOption);
         }
 
         // go to results page when an answer is pressed
         $(".selection").on("click", function () {
-            selected = $(this).data("index");
-            clearInterval(timer);
+            selected = $(this).val();
+            clearInterval(timerOn);
             results();
         });
     }
@@ -120,12 +117,13 @@ $(document).ready(function () {
         $("#question").empty();
         $("#options").empty();
         $("#timer").empty();
-
+        $("#result").empty();
+        
         // show results
-        if (selected === activeQ.answer) {
+        if (selected === triviaKey[questionCount].answer) {
             $('#result').html("You got it! The answer was <BR>" + targetAnswer);
             numAnsRight++;
-        } else if (selected != activeQ.answer) {
+        } else if (selected != triviaKey[questionCount].answer) {
             $('#result').html("Sorry, the answer was <BR>" + targetAnswer);
             numAnsWrong++;
         } else {
@@ -152,10 +150,10 @@ $(document).ready(function () {
     // function to show final results
     function endGame() {
         console.log("game ended");
-        $("#result").append("GAME OVER!");
+        $("#result").append("GAME OVER! <BR>");
         $("#result").append("Number correct:" + numAnsRight);
-        $("#result").append("Number wrong:" + numAnsWrong);
-        $("#result").append("Number timed out:" + numTimedOut);
+        $("#result").append("<BR>Number wrong:" + numAnsWrong);
+        $("#result").append("<BR> Number timed out:" + numTimedOut);
 
         // create button to restart game
         $("#restart-btn").show();
