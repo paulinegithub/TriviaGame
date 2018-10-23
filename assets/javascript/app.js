@@ -18,21 +18,21 @@ $(document).ready(function () {
         },
         {
             question: "How many tentacles does a octopus have?",
-            options: ["a. five", "b. six", "c. ten", "d. eight"],
+            options: ["a. eight", "b. six", "c. ten", "d. they actually have two legs and six arms"],
             answer: 3
         }
     ];
 
 
     // test calls to the trivia bank
-    for (var i = 0; i < triviaKey.length; i++) {
-        console.log("question: " + triviaKey[i].question);
-        console.log("option 1: " + triviaKey[i].options[0]);
-        console.log("option 2: " + triviaKey[i].options[1]);
-        console.log("option 3: " + triviaKey[i].options[2]);
-        console.log("option 4: " + triviaKey[i].options[3]);
-        console.log("answer: " + triviaKey[i].options[triviaKey[i].answer]);
-    }
+    // for (var i = 0; i < triviaKey.length; i++) {
+    //     console.log("question: " + triviaKey[i].question);
+    //     console.log("option 1: " + triviaKey[i].options[0]);
+    //     console.log("option 2: " + triviaKey[i].options[1]);
+    //     console.log("option 3: " + triviaKey[i].options[2]);
+    //     console.log("option 4: " + triviaKey[i].options[3]);
+    //     console.log("answer: " + triviaKey[i].options[triviaKey[i].answer]);
+    // }
 
 
     // set up initial variables
@@ -42,9 +42,133 @@ $(document).ready(function () {
     var questionCount = 0;
     var secsLeft = 10;
     var timerOn;
-    var selected;
-    var activeQ;
+    var choice;
     var targetAnswer;
+
+
+    // function to count down 1 second at a time
+    function startTimer() {
+        console.log("timer started");
+        $("#timer").html(secsLeft + "s");
+        timerOn = setInterval(timeOut, 1000);
+    }
+
+
+    // helper function to time out when no answer is pressed
+    function timeOut() {
+        $("#timer").html(secsLeft + "s");
+
+        console.log(secsLeft + "s left");
+
+        secsLeft--;
+
+        if (secsLeft < 1) {
+            clearInterval(timerOn);
+            results();
+        }
+    }
+
+
+    // function to spawn next question
+    function nextQuestion() {
+        console.log("question " + questionCount + " loaded");
+        startTimer();
+
+        $("#result").empty();
+        $("#question").html(triviaKey[questionCount].question);
+
+        // spawn options for active question
+        for (var i = 0; i < triviaKey[questionCount].options.length; i++) {
+            var eachOption = $("<div>");
+            eachOption.text(triviaKey[questionCount].options[i]);
+            eachOption.attr("value", i);
+            eachOption.addClass("choice");
+            $("#options").append(eachOption);
+            console.log("index value: " + eachOption.attr("value"));
+        }
+
+        // go to results page when an answer is pressed
+        $(".choice").on("click", function () {
+            choice = parseInt($(this).attr("value"));
+            console.log("index of choice: " + choice);
+            clearInterval(timerOn);
+            results();
+        });
+    }
+
+
+    // function to show correct answer
+    function results() {
+        targetAnswer = triviaKey[questionCount].options[triviaKey[questionCount].answer];
+        console.log("index of target: " + triviaKey[questionCount].answer);
+        console.log("target answer: " + targetAnswer);
+        console.log("results loaded");
+        // clear question, options and timer
+        $("#question").empty();
+        $("#options").empty();
+        $("#timer").empty();
+        $("#result").empty();
+
+        // show results
+        if (choice === triviaKey[questionCount].answer) {
+            $('#result').html("You got it! The answer was <BR>" + targetAnswer);
+            numAnsRight++;
+        } else if (choice != triviaKey[questionCount].answer) {
+            $('#result').html("Sorry, the answer was <BR>" + targetAnswer);
+            numAnsWrong++;
+        } else {
+            $('#result').html("Time's up! The answer was <BR> " + targetAnswer);
+            numTimedOut++;
+        }
+
+        // go to next question if there are more
+        if (questionCount < triviaKey.length - 1) {
+            questionCount++;
+            setTimeout(nextQuestion, 2000);
+            secsLeft = 10;
+        }
+
+        // finish game if no more questions
+        else {
+            setTimeout(endGame, 2000);
+            $("#timer").html(secsLeft + "s");
+            console.log("secsLeft" + secsLeft);
+            secsLeft = 10;
+        }
+    }
+
+
+    // function to show final results
+    function endGame() {
+        console.log("game ended");
+
+        // clear timer and result
+        $("#timer").empty();
+        $("#result").empty();
+
+        // show final score
+        $("#result").append("GAME OVER! <BR>");
+        $("#result").append("Number correct: " + numAnsRight);
+        $("#result").append("<BR>Number wrong: " + numAnsWrong);
+        $("#result").append("<BR> Number timed out: " + numTimedOut);
+
+        // show button to restart game
+        $("#restart-btn").show();
+    }
+
+
+    // Start the game when "Start" button is pressed
+    $("#start-btn").on("click", function () {
+        $(this).hide();
+        newGame();
+    });
+
+
+    // restart game when "Restart" button is pressed
+    $('#restart-btn').on('click', function () {
+        $(this).hide();
+        newGame();
+    });
 
 
     // function to start game by spawning first question
@@ -59,117 +183,6 @@ $(document).ready(function () {
         nextQuestion();
     }
 
-
-    // helper function to time out when no answer is pressed
-    function timeOut() {
-        $("#timer").html(secsLeft + "s");
-
-        console.log("secsLeft" + secsLeft);
-
-        secsLeft--;
-
-        if (secsLeft === 0) {
-            clearInterval(timerOn);
-            results();
-        }
-    }
-
-
-    // function to count down 1 second at a time
-    function startTimer() {
-        console.log("timer started");
-        $("#timer").html(secsLeft + "s");
-        timerOn = setInterval(timeOut, 1000);
-    }
-
-
-    // function to spawn next question
-    function nextQuestion() {
-        console.log("question" + questionCount + "loaded");
-        startTimer();
-
-        $("#result").empty();
-        $("#question").html(triviaKey[questionCount].question);
-
-        // spawn options for active question
-        for (var i = 0; i < triviaKey[questionCount].options.length; i++) {
-            var eachOption = $("<div>");
-            eachOption.text(triviaKey[questionCount].options[i]);
-            eachOption.val(i);
-            eachOption.addClass("selection");
-            $("#options").append(eachOption);
-        }
-
-        // go to results page when an answer is pressed
-        $(".selection").on("click", function () {
-            selected = $(this).val();
-            clearInterval(timerOn);
-            results();
-        });
-    }
-
-
-    // function to show correct answer
-    function results() {
-        targetAnswer = triviaKey[questionCount].options[triviaKey[questionCount].answer];
-        console.log("results loaded");
-        // clear question, options and timer
-        $("#question").empty();
-        $("#options").empty();
-        $("#timer").empty();
-        $("#result").empty();
-        
-        // show results
-        if (selected === triviaKey[questionCount].answer) {
-            $('#result').html("You got it! The answer was <BR>" + targetAnswer);
-            numAnsRight++;
-        } else if (selected != triviaKey[questionCount].answer) {
-            $('#result').html("Sorry, the answer was <BR>" + targetAnswer);
-            numAnsWrong++;
-        } else {
-            $('#result').html("Time's up! The answer was <BR> " + targetAnswer);
-            numTimedOut++;
-        }
-
-        // go to next question or finish game
-        if (questionCount < triviaKey.length - 1) {
-            questionCount++;
-            setTimeout(nextQuestion, 3000);
-        } else {
-            setTimeout(endGame, 3000);
-
-            $("#timer").html(secsLeft + "s");
-
-            console.log("secsLeft" + secsLeft);
-
-            secsLeft--;
-        }
-    }
-
-
-    // function to show final results
-    function endGame() {
-        console.log("game ended");
-        $("#result").append("GAME OVER! <BR>");
-        $("#result").append("Number correct:" + numAnsRight);
-        $("#result").append("<BR>Number wrong:" + numAnsWrong);
-        $("#result").append("<BR> Number timed out:" + numTimedOut);
-
-        // create button to restart game
-        $("#restart-btn").show();
-    }
-
-    // Start the game when "Start" button is pressed
-    $("#start-btn").on("click", function () {
-        $(this).hide();
-        newGame();
-    });
-
-    // restart game when "Restart" button is pressed
-    $('#restart-btn').on('click', function () {
-        $(this).hide();
-        newGame();
-    });
 
     $("#restart-btn").hide();
 
