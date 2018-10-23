@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Trivia Game</title>
+
+    <!-- bootstrap & custom css files -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!--  JQuery & game file -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="assets/javascript/app.js"></script>
+</head>
+
+<body>
+    <div class="container">
+
+        <!-- header -->
+        <header>
+            <h1>Trivia Game</h1>
+        </header>
+
+        <!-- start game -->
+        <div id="start" class="main">
+            <button id="start-btn" type="button" class="btn btn-success">Click to Start!</button>
+            <button id="restart-btn" type="button" class="btn btn-success">Try Again?</button>
+        </div>
+
+        <!-- game box populated by app.js-->
+        <div id="game" class="main">
+            <div id="question"></div>
+            <div id="options"></div>
+            <div id="timer"></div>
+            <div id="result"></div>
+        </div>
+
+        <!-- footer -->
+        <footer>
+            <!-- <p><b>Credits for images:</b>
+
+                <br>Background: <a href="https://www.deviantart.com/nightsilverchelly/art/My-little-pony-Wallpaper-269784556"
+                    target="_blank">MLP-Vector-Collabs</a> at deviantart
+            </p> -->
+        </footer>
+
+    </div>
+
+    <!-- bootstrap js files -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
