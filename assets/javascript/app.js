@@ -109,14 +109,14 @@ $(document).ready(function () {
 
         // show results
         if (choice === triviaKey[questionCount].answer) {
-            $('#result').html("You got it! The answer was <BR>" + targetAnswer);
+            $('#result').html("You got it! The answer was <BR><BR>" + targetAnswer);
             numAnsRight++;
-        } else if (choice != triviaKey[questionCount].answer) {
-            $('#result').html("Sorry, the answer was <BR>" + targetAnswer);
-            numAnsWrong++;
-        } else {
-            $('#result').html("Time's up! The answer was <BR> " + targetAnswer);
+        } else if (secsLeft < 1) {
+            $('#result').html("Time's up! The answer was <BR><BR> " + targetAnswer);
             numTimedOut++;
+        } else {
+            $('#result').html("Sorry, the answer was <BR><BR>" + targetAnswer);
+            numAnsWrong++;
         }
 
         // go to next question if there are more
@@ -143,7 +143,7 @@ $(document).ready(function () {
         $("#result").empty();
 
         // show final scores
-        $("#result").append("GAME OVER! <BR>");
+        $("#result").append("<h2>GAME OVER! <h2>");
         $("#result").append("Number correct: " + numAnsRight);
         $("#result").append("<BR>Number wrong: " + numAnsWrong);
         $("#result").append("<BR> Number timed out: " + numTimedOut);
