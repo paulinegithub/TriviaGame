@@ -48,8 +48,6 @@ $(document).ready(function () {
 
     // function to count down 1 second at a time
     function startTimer() {
-        console.log("timer started");
-        $("#timer").html(secsLeft + "s");
         timerOn = setInterval(timeOut, 1000);
     }
 
@@ -124,16 +122,14 @@ $(document).ready(function () {
         // go to next question if there are more
         if (questionCount < triviaKey.length - 1) {
             questionCount++;
-            setTimeout(nextQuestion, 2000);
             secsLeft = 10;
+            setTimeout(nextQuestion, 2000);
         }
 
         // finish game if no more questions
         else {
-            setTimeout(endGame, 2000);
-            $("#timer").html(secsLeft + "s");
-            console.log("secsLeft" + secsLeft);
             secsLeft = 10;
+            setTimeout(endGame, 2000);
         }
     }
 
@@ -146,7 +142,7 @@ $(document).ready(function () {
         $("#timer").empty();
         $("#result").empty();
 
-        // show final score
+        // show final scores
         $("#result").append("GAME OVER! <BR>");
         $("#result").append("Number correct: " + numAnsRight);
         $("#result").append("<BR>Number wrong: " + numAnsWrong);
@@ -160,30 +156,28 @@ $(document).ready(function () {
     // Start the game when "Start" button is pressed
     $("#start-btn").on("click", function () {
         $(this).hide();
-        newGame();
+        reset();
     });
 
 
     // restart game when "Restart" button is pressed
     $('#restart-btn').on('click', function () {
         $(this).hide();
-        newGame();
+        reset();
     });
 
 
     // function to start game by spawning first question
-    function newGame() {
-        $("#question").empty();
+    function reset() {
         numAnsRight = 0;
         numAnsWrong = 0;
         numTimedOut = 0;
         questionCount = 0;
-        secsLeft = 10;
-        console.log("game started");
         nextQuestion();
+        console.log("game started");
     }
 
-
+    //  hide restart button when page first loads
     $("#restart-btn").hide();
 
 });
