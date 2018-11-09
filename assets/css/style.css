@@ -2,6 +2,10 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+/* .jumbotron {
+    background-color: lightgoldenrodyellow;
+} */
+
 .main, #question, #choice {
     margin: 0 auto;
     text-align: center;
