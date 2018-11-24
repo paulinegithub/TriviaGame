@@ -78,11 +78,13 @@ $(document).ready(function () {
 
         // spawn options for active question
         for (var i = 0; i < triviaKey[questionCount].options.length; i++) {
-            var eachOption = $("<div>");
+            var eachOption = $("<button>");
             eachOption.text(triviaKey[questionCount].options[i]);
             eachOption.attr("value", i);
-            eachOption.addClass("choice");
+            eachOption.attr("type", "button");
+            eachOption.addClass("btn btn-light choice");
             $("#options").append(eachOption);
+            $("#options").append("<br>");
             console.log("index value: " + eachOption.attr("value"));
         }
 
