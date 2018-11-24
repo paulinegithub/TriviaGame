@@ -48,17 +48,18 @@ $(document).ready(function () {
 
     // function to count down 1 second at a time
     function startTimer() {
+        $("#timer").html(secsLeft + "s");
         timerOn = setInterval(timeOut, 1000);
     }
 
 
     // helper function to time out when no answer is pressed
     function timeOut() {
+        secsLeft--;
+
         $("#timer").html(secsLeft + "s");
 
         console.log(secsLeft + "s left");
-
-        secsLeft--;
 
         if (secsLeft < 1) {
             clearInterval(timerOn);
