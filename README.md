@@ -21,6 +21,17 @@
 
 ---
 
+## Built with:
+
+- [Bootstrap](https://getbootstrap.com/) - Front-end component library for developing with HTML, CSS, and JS.
+- CSS3
+- HTML5
+- [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) - High-level programming language.
+- [jQuery](https://jquery.com/) - JavaScript library.
+- [Visual Studio Code](https://code.visualstudio.com/) - Source code editor developed by Microsoft.
+
+---
+
 ## Author:
 
 - **Pauline Senh** - [plsenh](https://github.com/plsenh)
